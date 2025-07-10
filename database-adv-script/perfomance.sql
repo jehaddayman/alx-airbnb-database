@@ -1,6 +1,19 @@
--- Original complex query (before optimization)
-SELECT b.*, u.name, p.title, pay.amount
-FROM bookings b
-JOIN users u ON u.id = b.user_id
-JOIN properties p ON p.id = b.property_id
-LEFT JOIN payments pay ON pay.booking_id = b.id;
+-- Original complex query: Join bookings with users, properties, and payments
+SELECT
+    b.id AS booking_id,
+    b.start_date,
+    b.end_date,
+    u.name AS user_name,
+    u.email,
+    p.title AS property_title,
+    p.price_per_night,
+    pay.amount AS payment_amount,
+    pay.payment_date
+FROM
+    bookings b
+JOIN
+    users u ON b.user_id = u.id
+JOIN
+    properties p ON b.property_id = p.id
+LEFT JOIN
+    payments pay ON b.id = pay.booking_id;
