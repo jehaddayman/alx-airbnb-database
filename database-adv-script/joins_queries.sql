@@ -1,14 +1,38 @@
--- INNER JOIN: Get all bookings and respective users
-SELECT b.id AS booking_id, u.name, u.email
-FROM bookings b
-INNER JOIN users u ON b.user_id = u.id;
+-- 1. INNER JOIN: Retrieve all bookings and the respective users who made those bookings
+SELECT
+    b.id AS booking_id,
+    b.start_date,
+    b.end_date,
+    u.id AS user_id,
+    u.name AS user_name,
+    u.email
+FROM
+    bookings b
+INNER JOIN
+    users u ON b.user_id = u.id;
 
--- LEFT JOIN: Get all properties and their reviews (even if no review)
-SELECT p.id AS property_id, p.title, r.rating
-FROM properties p
-LEFT JOIN reviews r ON p.id = r.property_id;
+-- 2. LEFT JOIN: Retrieve all properties and their reviews (including properties with no reviews)
+SELECT
+    p.id AS property_id,
+    p.title AS property_title,
+    r.id AS review_id,
+    r.rating,
+    r.comment
+FROM
+    properties p
+LEFT JOIN
+    reviews r ON p.id = r.property_id
+ORDER BY
+    p.id;
 
--- FULL OUTER JOIN: All users and bookings (even if unmatched)
-SELECT u.id AS user_id, u.name, b.id AS booking_id, b.start_date
-FROM users u
-FULL OUTER JOIN bookings b ON u.id = b.user_id;
+-- 3. FULL OUTER JOIN: Retrieve all users and all bookings, even if the user has no booking or booking is not linked to a user
+SELECT
+    u.id AS user_id,
+    u.name AS user_name,
+    b.id AS booking_id,
+    b.start_date,
+    b.end_date
+FROM
+    users u
+FULL OUTER JOIN
+    bookings b ON u.id = b.user_id;
