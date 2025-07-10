@@ -1,12 +1,23 @@
-# Query Optimization Report
+# Optimization Report: Airbnb Booking Query
 
-## Bottlenecks Found:
-- Unindexed joins on large tables
-- Left joins on nullable columns
+## 🎯 Initial Query
 
-## Improvements:
-- Added indexes on user_id, property_id, booking_id
-- Removed unused columns from SELECT clause
-
-## Result:
-Execution time reduced from 1.2s to 280ms.
+```sql
+SELECT
+    b.id AS booking_id,
+    b.start_date,
+    b.end_date,
+    u.name AS user_name,
+    u.email,
+    p.title AS property_title,
+    p.price_per_night,
+    pay.amount AS payment_amount,
+    pay.payment_date
+FROM
+    bookings b
+JOIN
+    users u ON b.user_id = u.id
+JOIN
+    properties p ON b.property_id = p.id
+LEFT JOIN
+    payments pay ON b.id = pay.booking_id;
