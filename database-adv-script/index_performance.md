@@ -1,10 +1,19 @@
 # Index Performance Report
 
-## Before Indexing:
-Query time to retrieve bookings by user: ~700ms
+## 🎯 Objective
 
-## After Indexing:
-Query time reduced to ~95ms
+Improve the performance of frequently used queries by adding indexes to high-usage columns.
 
-## Conclusion:
-Adding indexes to `user_id`, `property_id`, and `owner_id` dramatically improved join performance.
+## 🔍 Before Indexing
+
+Query to retrieve bookings with user and property details:
+
+```sql
+SELECT
+  b.id, b.start_date, u.name, p.title
+FROM
+  bookings b
+JOIN
+  users u ON b.user_id = u.id
+JOIN
+  properties p ON b.property_id = p.id;
